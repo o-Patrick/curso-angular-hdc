@@ -1,0 +1,36 @@
+Obs: várias das coisas usando a CLI também podem ser feitas à mão, mas usar um comando já faz várias coisas automaticamente, como atualizar um arquivo que mapeia os componentes existentes.
+
+- instalar angular cli (globalmente): npm install -g @angular/cli
+
+- cricar app: ng new <nome>
+
+- iniciar servidor (na pasta do app): ng serve
+
+- gerar coisas (inclui componentes, mas ainda não sei o que mais pode ser criado desta forma): ng generate <nome>
+
+- gerar componente: ng generate component <nome>
+	- detalhe importante: o componente é gerado dentro da pasta app, criando novos arquivos, mas não excluindo os já existentes, por isso, para manter a organização, criar uma pasta para aquele componente novo
+
+- importando um componente:
+	- não é necessário um "import", porque no arquivo <nome-componente>.component.ts, há um @Component que contém um selector cujo valor será usado no lugar
+	- portanto, para usar um componente externo, basta digitar o selector deste como um elemento, SEMPRE precedido por app- (ex: app-primeiro-componente), exatamente como o selector no arquivo .ts
+
+- CSS
+	- global: utilizar o src/styles.css
+	- scoped: utilizar o arquivo css do componente criado; independente do seletor CSS, este só é aplicado para o componente do qual ele faz parte, portanto nenhum estilo de componente e aplicado para demais componentes ou para o pai.
+
+- interpolação de dados
+	- variáveis em classes dos componentes (dentro da classe, fora do constructor):
+  angular funciona tanto com js quanto com ts, portanto é possível digitar: name = "Matheus"; ou: name: string = "Matheus";
+
+- passando dados de pai para filho
+	- dados do pai ficam no arquivo .ts
+	- no arquivo .html que recebe o componente, colocar na tag deste uma propriedade similar a:
+		[nomeDado]="varNoPai"
+	- no componente filho, importar Input:
+		import { Component, OnInit, Input } from '@angular/core';
+	- e na classe deste último (fora do constructor):
+		@Input() name: string = "";
+		// não é possível apenas declarar o nome da var, por isso esta deve receber algum valor inicialmente, neste caso é uma string vazia.
+		// o nome da var pode ser qual for, mas é interessante deixar igual como sempre
+	- no componente filho, usar o nome dado no .ts deste
