@@ -5,12 +5,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PrimeiroComponenteComponent } from './components/primeiro-componente/primeiro-componente.component';
 import { DadosPaiComponent } from './components/dados-pai/dados-pai.component';
+import { DiretivasComponent } from './components/diretivas/diretivas.component';
+import { RenderCondicionalComponent } from './components/render-condicional/render-condicional.component';
+import { EventosComponent } from './components/eventos/eventos.component';
+import { EmissorComponent } from './components/emitindo-eventos/emissor/emissor.component';
+import { MudaNumeroComponent } from './components/emitindo-eventos/muda-numero/muda-numero.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PrimeiroComponenteComponent,
-    DadosPaiComponent
+    DadosPaiComponent,
+    DiretivasComponent,
+    RenderCondicionalComponent,
+    EventosComponent,
+    EmissorComponent,
+    MudaNumeroComponent
   ],
   imports: [
     BrowserModule,

@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class DadosPaiComponent implements OnInit {
   @Input() userName: string = "";
+  @Input() userData!: {email: string, role: string};
 
   constructor() { }
 

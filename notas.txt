@@ -2,7 +2,7 @@ Obs: várias das coisas usando a CLI também podem ser feitas à mão, mas usar 
 
 - instalar angular cli (globalmente): npm install -g @angular/cli
 
-- cricar app: ng new <nome>
+- criar app: ng new <nome>
 
 - iniciar servidor (na pasta do app): ng serve
 
@@ -21,7 +21,7 @@ Obs: várias das coisas usando a CLI também podem ser feitas à mão, mas usar 
 
 - interpolação de dados
 	- variáveis em classes dos componentes (dentro da classe, fora do constructor):
-  angular funciona tanto com js quanto com ts, portanto é possível digitar: name = "Matheus"; ou: name: string = "Matheus";
+  angular funciona tanto com js, quanto com ts, portanto é possível digitar: name = "Matheus"; ou: name: string = "Matheus";
 
 - passando dados de pai para filho
 	- dados do pai ficam no arquivo .ts
@@ -34,3 +34,72 @@ Obs: várias das coisas usando a CLI também podem ser feitas à mão, mas usar 
 		// não é possível apenas declarar o nome da var, por isso esta deve receber algum valor inicialmente, neste caso é uma string vazia.
 		// o nome da var pode ser qual for, mas é interessante deixar igual como sempre
 	- no componente filho, usar o nome dado no .ts deste
+	- filho recebendo um objeto como dado:
+		@Input() userData!: {email: string, role: string};
+		// importante notar a ! ao final no nome. Isso ocorre porque esta variável não foi inicializada anteriormente, o que não se torna necessária com a presença da !
+
+- diretivas
+	- sempre iniciado com ng e como atributo dos elementos
+	- exitem vários tipos
+	- diretiva de estilos css:
+		<h2 [ngStyle]="{}"> Exemplo </h2>
+		- exemplo acima com estilos
+			<h2 [ngStyle]="{'font-size': size + 'pt', 'font-family': font, color: color}">Testando diretivas de estilos / style</h2>
+			// size, font e o segundo color são variáveis declaradas no .ts
+			// o primeiro color, por ser palavra única, não usa aspas
+	- diretiva de  classes css:
+		// no .html
+		<h2 [ngClass]="classes"></h2>
+		// no .ts
+		classes = ['green-title', 'small-title']
+
+- render condicional
+	- ngIf
+		<div *ngIf="podeMostrar">Estamos mostrando isso porque foi permitido</div>
+		// podeMostrar é uma variável booleana
+
+	- if/else:
+		<h2 *ngIf="nome === 'Matheus'; else nomeNaoEncontrado">O nome é Matheus</h2>
+		// nome é uma variável
+
+		// #nomeNaoEncontrado dá nome à template
+		<ng-template #nomeNaoEncontrado>
+			<div>O nome não foi encontrado</div>
+		</ng-template>
+		// é importate que ng-template apenas mostre dados, mas não os processe
+
+- eventos
+	- (evento)="metodo()"
+	- os métodos ficam na classe
+
+- emitindo eventos
+	- comunicar eventos de um componente filho para o pai
+	- usa @Output (no caso de fazer somente a passagem de dados)
+		- portanto importar Output
+	- no caso de emitir um evento, importar EventEmitter também
+	- ex: (eventoEmissor)="onEventoEmissor()"
+	- o evento e o emissor do evento são coisas diferentes, por isso não tem ligação entre si automaticamente
+
+	1. no .hmtl com handle do evento:
+		<button (click)="handleClick()">Alterar o número</button>
+
+	2. no .ts com handle do evento:
+		import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+
+		@Output() mudaNumero: EventEmitter<any> = new EventEmitter();
+		// <any> não é boa prática em ts
+
+		handleClick() {
+			this.mudaNumero.emit();
+		}
+
+	3. no .html do emissor:
+		<h2>O número é: {{ meuNumero }}</h2>
+		<app-muda-numero (mudaNumero)="onMudaNumero()"></app-muda-numero>
+
+	4. no .ts do emissor:
+		meuNumero: number = 0;
+
+		onMudaNumero() {
+			this.meuNumero = Math.floor(Math.random() * 10);
+		}
